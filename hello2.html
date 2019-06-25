@@ -32,11 +32,11 @@
 				
 				//-------------------
 				
-				this.displayFirstChar = function() {
+				let displayFirstChar = function() {
 					setTimeout(() => this.shadowRoot.textContent = this.dataset.text[0], 555);
-				}
+				}.bind(this);
 				
-				this.displayNextChar = function() {
+				let displayNextChar = function() {
 				
 					let textToDisplay = this.dataset.text;
 					let displayedText = this.shadowRoot.textContent;
@@ -54,13 +54,13 @@
 					if (isLastCharToDisplay) shadowRootObserver.disconnect();
 
 					setTimeout(addCharToDisplayedText, delayLength);
-				}
+				}.bind(this);
 				
-				let shadowRootObserver = new MutationObserver(() => this.displayNextChar());
+				let shadowRootObserver = new MutationObserver(displayNextChar);
 				
 				shadowRootObserver.observe(this.shadowRoot, {attributes: false, childList: true, subtree: false});
 
-				this.displayFirstChar();
+				displayFirstChar();
 			}
 		}
 		
@@ -89,12 +89,12 @@
 				
 				this.attachShadow({mode: "open"});
 
-				this.cursorAnimate = function() {
+				let cursorAnimate = function() {
 					if (this.shadowRoot.textContent) this.shadowRoot.textContent = "";
 					else this.shadowRoot.textContent = "_";
-				}
+				}.bind(this);
 
-				this.intervalID = setInterval(() => this.cursorAnimate(), 555);
+				this.intervalID = setInterval(cursorAnimate, 555);
 			}
 		}
 
@@ -108,7 +108,7 @@
 <body>
 		
 	<text-module data-text="hello"></text-module><cursor-module></cursor-module>
-
+	
 </body>
 
 </html>
