@@ -28,7 +28,7 @@
 					this.attachShadow({mode: "open"});
 
 					this.displayFirstChar = function() {
-						setTimeout(() => {this.shadowRoot.textContent = this.dataset.text[0]}, 555);
+						setTimeout(() => this.shadowRoot.textContent = this.dataset.text[0], 555);
 					}
 					
 					this.displayNextChar = function() {
@@ -55,7 +55,7 @@
 					
 					let shadowRootObserver = new MutationObserver(() => this.displayNextChar());
 					
-					shadowRootObserver.observe(this.shadowRoot, { attributes: false, childList: true, subtree: false });
+					shadowRootObserver.observe(this.shadowRoot, {attributes: false, childList: true, subtree: false});
 
 					this.displayFirstChar();
 				}
