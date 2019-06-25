@@ -39,17 +39,18 @@
 						let isLastCharToDisplay = displayedText.length === textToDisplay.length-1;
 
 							if (isLastCharToDisplay) shadowRootObserver.disconnect();
-								let charToDisplay = textToDisplay[displayedText.length];		
-								let previousChar = textToDisplay[displayedText.length-1];
+							
+							let charToDisplay = textToDisplay[displayedText.length];		
+							let previousChar = textToDisplay[displayedText.length-1];
+							
+							let delayLength = (charToDisplay === previousChar) ? 150 : 333 + Math.random() * 777;
+
+							let addCharToDisplayedText = function() {
+								this.shadowRoot.textContent += charToDisplay; 
 								
-								let delayLength = (charToDisplay === previousChar) ? 150 : 333 + Math.random() * 777;
+							}.bind(this);
 
-								let addCharToDisplayedText = function() {
-									this.shadowRoot.textContent += charToDisplay; 
-									
-								}.bind(this);
-
-								setTimeout(addCharToDisplayedText, delayLength);
+							setTimeout(addCharToDisplayedText, delayLength);
 					}
 					
 					let shadowRootObserver = new MutationObserver(() => this.displayNextChar());
