@@ -8,15 +8,12 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
 
 	<script>
-	
 		// ------------------------ Text module -----------------------------
 	
 		class Text extends HTMLElement {
 		
 			constructor() {
 				super();
-
-				this.attachShadow({mode: "open"});
 				
 				//--------css--------
 				
@@ -33,13 +30,13 @@
 				//-------------------
 				
 				let displayFirstChar = function() {
-					setTimeout(() => this.shadowRoot.textContent = this.dataset.text[0], 555);
+					setTimeout(() => this.textContent = this.dataset.text[0], 555);
 				}.bind(this);
 				
 				let displayNextChar = function() {
 				
 					let textToDisplay = this.dataset.text;
-					let displayedText = this.shadowRoot.textContent;
+					let displayedText = this.textContent;
 					let charToDisplay = textToDisplay[displayedText.length];		
 					let previousChar = textToDisplay[displayedText.length-1];
 					
@@ -48,17 +45,17 @@
 					let delayLength = (charToDisplay === previousChar) ? 150 : 333 + Math.random() * 777;
 					
 					let addCharToDisplayedText = function() {
-						this.shadowRoot.textContent += charToDisplay;
+						this.textContent += charToDisplay;
 					}.bind(this);
 
-					if (isLastCharToDisplay) shadowRootObserver.disconnect();
+					if (isLastCharToDisplay) observer.disconnect();
 
 					setTimeout(addCharToDisplayedText, delayLength);
 				}.bind(this);
 				
-				let shadowRootObserver = new MutationObserver(displayNextChar);
+				let observer = new MutationObserver(displayNextChar);
 				
-				shadowRootObserver.observe(this.shadowRoot, {attributes: false, childList: true, subtree: false});
+				observer.observe(this, {attributes: false, childList: true, subtree: false});
 
 				displayFirstChar();
 			}
@@ -87,11 +84,9 @@
 				
 				//-------------------
 				
-				this.attachShadow({mode: "open"});
-
 				let cursorAnimate = function() {
-					if (this.shadowRoot.textContent) this.shadowRoot.textContent = "";
-					else this.shadowRoot.textContent = "_";
+					if (this.textContent) this.textContent = "";
+					else this.textContent = "_";
 				}.bind(this);
 
 				this.intervalID = setInterval(cursorAnimate, 555);
