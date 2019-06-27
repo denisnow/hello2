@@ -35,7 +35,7 @@
 						
 						let isLastCharToDisplay = displayedText.length === textToDisplay.length-1;
 						
-						let delayLength = (charToDisplay === previousChar) ? 150 : Math.random()*777+333;
+						let delayLength = (charToDisplay === previousChar) ? 150 : 333+Math.random()*777;
 						
 						let addCharToDisplayedText = function() {
 							this.textContent += charToDisplay;
