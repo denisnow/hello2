@@ -66,9 +66,10 @@
 						else this.textContent = "_";
 					}.bind(this);
 
-					setTimeout(cursorAnimate, 1);
+					setTimeout(cursorAnimate, 0);
 					this.intervalID = setInterval(cursorAnimate, 555);
 				}
+
 			}
 
 			customElements.define("cursor-module", Cursor);
