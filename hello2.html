@@ -2,108 +2,87 @@
 
 <html lang="en">
 
-<head>
+	<head>
 
-	<meta charset="utf-8">
-	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
-
-	<script>
-		// ------------------------ Text module -----------------------------
-	
-		class Text extends HTMLElement {
+		<meta charset="utf-8">
 		
-			constructor() {
-				super();
-				
-				//--------css--------
-				
-				let css  = '@import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");'+
-				           'text-module {'+
-				           '	font-family: "Roboto Mono", monospace;'+
-				           '	font-size: 15vw;'+
-				           '}';
-				let style = document.createElement('style');
-				document.head.appendChild(style);
-				style.type = 'text/css';
-				style.appendChild(document.createTextNode(css));
-				
-				//-------------------
-				
-				let displayFirstChar = function() {
-					setTimeout(() => this.textContent = this.dataset.text[0], 555);
-				}.bind(this);
-				
-				let displayNextChar = function() {
-				
-					let textToDisplay = this.dataset.text;
-					let displayedText = this.textContent;
-					let charToDisplay = textToDisplay[displayedText.length];		
-					let previousChar = textToDisplay[displayedText.length-1];
+		<style>
+			@import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
+			text-module, cursor-module {
+				font-family: "Roboto Mono", monospace;
+				font-size: 15vw;
+			}
+		</style>
+
+		<script>
+			// ------------------------ Text module -----------------------------
+		
+			class Text extends HTMLElement {
+			
+				constructor() {
+					super();
 					
-					let isLastCharToDisplay = displayedText.length === textToDisplay.length-1;
+					let displayFirstChar = function() {
+						setTimeout(() => this.textContent = this.dataset.text[0], 555);
+					}.bind(this);
 					
-					let delayLength = (charToDisplay === previousChar) ? 150 : 333 + Math.random() * 777;
+					let displayNextChar = function() {
 					
-					let addCharToDisplayedText = function() {
-						this.textContent += charToDisplay;
+						let textToDisplay = this.dataset.text;
+						let displayedText = this.textContent;
+						let charToDisplay = textToDisplay[displayedText.length];		
+						let previousChar = textToDisplay[displayedText.length-1];
+						
+						let isLastCharToDisplay = displayedText.length === textToDisplay.length-1;
+						
+						let delayLength = (charToDisplay === previousChar) ? 150 : 333 + Math.random() * 777;
+						
+						let addCharToDisplayedText = function() {
+							this.textContent += charToDisplay;
+						}.bind(this);
+
+						if (isLastCharToDisplay) observer.disconnect();
+
+						setTimeout(addCharToDisplayedText, delayLength);
+					}.bind(this);
+					
+					let observer = new MutationObserver(displayNextChar);
+					
+					observer.observe(this, {attributes: false, childList: true, subtree: false});
+
+					displayFirstChar();
+				}
+			}
+			
+			customElements.define("text-module", Text);
+
+			// ------------------------ Cursor module ---------------------------
+
+			class Cursor extends HTMLElement {
+			
+				constructor() {
+					super();
+					
+					let cursorAnimate = function() {
+						if (this.textContent) this.textContent = "";
+						else this.textContent = "_";
 					}.bind(this);
 
-					if (isLastCharToDisplay) observer.disconnect();
-
-					setTimeout(addCharToDisplayedText, delayLength);
-				}.bind(this);
-				
-				let observer = new MutationObserver(displayNextChar);
-				
-				observer.observe(this, {attributes: false, childList: true, subtree: false});
-
-				displayFirstChar();
+					this.intervalID = setInterval(cursorAnimate, 555);
+				}
 			}
-		}
+
+			customElements.define("cursor-module", Cursor);
+			
+			// ------------------------------------------------------------------
+		</script>
+
+	</head>
+
+	<body>
+			
+		<text-module data-text="hello"></text-module><cursor-module></cursor-module>
 		
-		customElements.define("text-module", Text);
-
-		// ------------------------ Cursor module ---------------------------
-
-		class Cursor extends HTMLElement {
-		
-			constructor() {
-				super();
-				
-				//--------css--------
-				
-				let css  = '@import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");'+
-				           'cursor-module {'+
-				           '	font-family: "Roboto Mono", monospace;'+
-				           '	font-size: 15vw;'+
-				           '}';
-				let style = document.createElement('style');
-				document.head.appendChild(style);
-				style.type = 'text/css';
-				style.appendChild(document.createTextNode(css));
-				
-				//-------------------
-				
-				let cursorAnimate = function() {
-					if (this.textContent) this.textContent = "";
-					else this.textContent = "_";
-				}.bind(this);
-
-				this.intervalID = setInterval(cursorAnimate, 555);
-			}
-		}
-
-		customElements.define("cursor-module", Cursor);
-		
-		// ------------------------------------------------------------------
-	</script>
-
-</head>
-
-<body>
-		
-	<text-module data-text="hello"></text-module><cursor-module></cursor-module>
-	
-</body>
+	</body>
 
 </html>
