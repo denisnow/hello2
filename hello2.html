@@ -42,14 +42,12 @@
 						}.bind(this);
 
 						if (isLastCharToDisplay) observer.disconnect();
-
 						setTimeout(addCharToDisplayedText, delayLength);
 					}.bind(this);
 					
 					let observer = new MutationObserver(displayNextChar);
 					
 					observer.observe(this, {attributes: false, childList: true, subtree: false});
-
 					displayFirstChar();
 				}
 			}
