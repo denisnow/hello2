@@ -61,15 +61,13 @@
 				constructor() {
 					super();
 					
-					let cursorAnimate = function() {
-						if (this.textContent) this.textContent = "";
-						else this.textContent = "_";
+					let toggleCursorState = function() {
+						this.textContent = (this.textContent) ? "" : "_";
 					}.bind(this);
 
-					setTimeout(cursorAnimate, 0);
-					this.intervalID = setInterval(cursorAnimate, 555);
+					setTimeout(toggleCursorState, 0);
+					this.intervalID = setInterval(toggleCursorState, 555);
 				}
-
 			}
 
 			customElements.define("cursor-module", Cursor);
