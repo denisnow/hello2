@@ -23,7 +23,7 @@
 					super();
 					
 					let displayFirstChar = function() {
-						setTimeout(() => this.textContent = this.dataset.text[0], 555);
+						setTimeout(() => this.textContent = this.dataset.text[0], 333+Math.random()*777);
 					}.bind(this);
 					
 					let displayNextChar = function() {
