@@ -15,10 +15,10 @@
 		</style>
 
 		<script>
-			// ------------------------ Text module -----------------------------
-		
-			class Text extends HTMLElement {
+			// ------------------------ Text -----------------------------
 			
+			class Text extends HTMLElement {
+				
 				constructor() {
 					super();
 					
@@ -27,7 +27,7 @@
 					}.bind(this);
 					
 					let displayNextChar = function() {
-					
+						
 						let textToDisplay = this.dataset.text;
 						let displayedText = this.textContent;
 						let charToDisplay = textToDisplay[displayedText.length];		
@@ -40,7 +40,7 @@
 						let addCharToDisplayedText = function() {
 							this.textContent += charToDisplay;
 						}.bind(this);
-
+						
 						if (isLastCharToDisplay) observer.disconnect();
 						setTimeout(addCharToDisplayedText, delayLength);
 					}.bind(this);
@@ -53,32 +53,32 @@
 			}
 			
 			customElements.define("text-module", Text);
-
-			// ------------------------ Cursor module ---------------------------
+			
+			// ------------------------ Cursor ---------------------------
 
 			class Cursor extends HTMLElement {
-			
+				
 				constructor() {
 					super();
 					
 					let toggleCursorState = function() {
 						this.textContent = (this.textContent) ? "" : "_";
 					}.bind(this);
-
+					
 					setTimeout(toggleCursorState, 0);
 					this.intervalID = setInterval(toggleCursorState, 555);
 				}
 			}
-
+			
 			customElements.define("cursor-module", Cursor);
 			
-			// ------------------------------------------------------------------
+			// -----------------------------------------------------------
 		</script>
 
 	</head>
 
 	<body>
-			
+		
 		<text-module data-text="hello"></text-module><cursor-module></cursor-module>
 		
 	</body>
