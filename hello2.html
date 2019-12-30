@@ -21,34 +21,31 @@
 				
 				constructor() {
 					super();
+					this.observer = new MutationObserver(() => this.displayNextChar());
+					this.observer.observe(this, {attributes: false, childList: true, subtree: false});
+					this.displayFirstChar();
+				}
+
+				displayFirstChar() {
+					setTimeout(() => this.textContent = this.dataset.text[0], 333+Math.random()*777);
+				}
+
+				displayNextChar() {
+					const textToDisplay = this.dataset.text;
+					const displayedText = this.textContent;
+					const charToDisplay = textToDisplay[displayedText.length];		
+					const previousChar = textToDisplay[displayedText.length-1];
 					
-					let displayFirstChar = function() {
-						setTimeout(() => this.textContent = this.dataset.text[0], 333+Math.random()*777);
+					const isLastCharToDisplay = displayedText.length === textToDisplay.length-1;
+					
+					const delayLength = (charToDisplay === previousChar) ? 150 : 333+Math.random()*777;
+					
+					const addCharToDisplayedText = function() {
+						this.textContent += charToDisplay;
 					}.bind(this);
 					
-					let displayNextChar = function() {
-						
-						let textToDisplay = this.dataset.text;
-						let displayedText = this.textContent;
-						let charToDisplay = textToDisplay[displayedText.length];		
-						let previousChar = textToDisplay[displayedText.length-1];
-						
-						let isLastCharToDisplay = displayedText.length === textToDisplay.length-1;
-						
-						let delayLength = (charToDisplay === previousChar) ? 150 : 333+Math.random()*777;
-						
-						let addCharToDisplayedText = function() {
-							this.textContent += charToDisplay;
-						}.bind(this);
-						
-						if (isLastCharToDisplay) observer.disconnect();
-						setTimeout(addCharToDisplayedText, delayLength);
-					}.bind(this);
-					
-					let observer = new MutationObserver(displayNextChar);
-					
-					observer.observe(this, {attributes: false, childList: true, subtree: false});
-					displayFirstChar();
+					if (isLastCharToDisplay) this.observer.disconnect();
+					setTimeout(addCharToDisplayedText, delayLength);
 				}
 			}
 			
@@ -60,13 +57,12 @@
 				
 				constructor() {
 					super();
-					
-					let toggleCursorState = function() {
-						this.textContent = (this.textContent) ? "" : "_";
-					}.bind(this);
-					
-					setTimeout(toggleCursorState, 0);
-					this.intervalID = setInterval(toggleCursorState, 555);
+					setTimeout(this.toggleCursorState, 0);
+					this.intervalID = setInterval(() => this.toggleCursorState(), 555);
+				}
+
+				toggleCursorState() {
+					this.textContent = (this.textContent) ? "" : "_";
 				}
 			}
 			
